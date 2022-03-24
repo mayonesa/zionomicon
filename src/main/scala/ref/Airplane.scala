@@ -1,18 +1,18 @@
 package ref
 
-import zio.{ZIOAppDefault, Ref, Console}
+import zio.{ZIOAppDefault, Ref, Console, UIO}
 
 object Airplane extends ZIOAppDefault:
 
-  private val seats = Ref.make(Vector.fill(10)(Option.empty[String]))
+  private val seats : UIO[Vector[Ref[Option[String]]]] = UIO.foreach(0 until 10) { _ => 
+    Ref.make(Option.empty[String])
+  }.map(_.toVector)
   // yep
   def run =
     for
       seating <- seats
-      _ <- seating.update(_.updated(1, Some("juancho")))
-      vector <- seating.get
-      _ <- Console.printLine(vector)
+      _ <-  UIO.foreachPar(1 to 10) { i =>
+        seating(0).update(_ => Some("passenger" + i))
+      } 
+      _ <- Console.printLine(seating)
     yield ()
-
-  def book(i: Int) = ???
-  
