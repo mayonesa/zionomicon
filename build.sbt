@@ -1,4 +1,4 @@
-val ZIOVersion        = "2.0.0-RC2"
+val ZIOVersion        = "2.0.0-RC3"
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
@@ -11,7 +11,6 @@ lazy val root = (project in file("."))
 
 libraryDependencies ++= Seq(
   "dev.zio"       %% "zio"          % ZIOVersion,
-  "dev.zio"       %% "zio-streams"  % ZIOVersion,
   "dev.zio"       %% "zio-test"     % ZIOVersion % "test",
   "dev.zio"       %% "zio-test-sbt" % ZIOVersion % "test",
 )
